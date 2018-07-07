@@ -1,5 +1,5 @@
 # semantic-bridge
-A "[semantic](https://en.wikipedia.org/wiki/Semantic_Web) bridge" between [OpenStreetMap](http://openstreetmap.org) (OSM) and [Wikidata](http://wikidata.org) (WD) by reciprocal identification.
+A "[semantic](https://en.wikipedia.org/wiki/Semantic_Web) bridge" between [OpenStreetMap](http://openstreetmap.org) (OSM) and [Wikidata](http://wikidata.org) (WD) by **reciprocal** identification.
 
 [ ![](assets/wdOsm-semanticBridge-480px.jpeg) ](assets#credits)
 

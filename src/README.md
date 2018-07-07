@@ -10,6 +10,22 @@ Source code of "checking tools", in many programming languages.
 
 4. `wc -l wikidataP402.csv` to estimate number of itens (please update home-README when necessary).
 
+## Preparing OSM dumps
+
+It is under construction, need better solution tham Overpass, but it is a good requeriment specification:
+
+```
+ [out:csv(::id, wikidata)][timeout:35];
+ way["wikidata"~"Q[0-9]+"]({{bbox}});
+ out 50;  // sample
+``` 
+
+This Overpass-script generates content for [`osm_way.csv`](../data/dump/osm_way.csv) file. 
+Replacing `way` to `relation` at  script, will generate `osm_relation.csv` file.
+
+As [this discussion](https://gis.stackexchange.com/q/288751/7505) the best is perhapts to use OSMium tools, https://osmcode.org/osmium-tool
+See [osmium-tags-filter](https://github.com/osmcode/osmium-tool/blob/master/man/osmium-tags-filter.md).
+
 ## Preparing lookup
 
 After wikidata dump prepared, 
