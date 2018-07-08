@@ -63,7 +63,7 @@ case 'WIKIDATA':
 case 'DFT':
 	print "wdId,osm_type,osm_id";
 	foreach($R as $id=>$r) {
-          if (rand (1,20)==1) {ERRprint("\nsleep..."); sleep(4);} // to avoid wikidata see as attack
+          if (rand (1,$delay_rnd)==1) {ERRprint("\nsleep..."); sleep($delay_sleep);} // to avoid wikidata see as attack
 	  $wdId = "Q$id";
 	  ERRprint("\n\t($i of $n) $wdId ");
 	  $osmR_id = getWdArray_fromWdUrl($wdId);
