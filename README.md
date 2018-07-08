@@ -13,9 +13,9 @@ At July 2018 there are:
 
 * [~1,123,500 OSM features](https://taginfo.openstreetmap.org/search?q=wikidata#keys) with a `wikidata` key.
 
-* [**~63000** Wikidata entities](https://query.wikidata.org/#SELECT%20%28COUNT%28DISTINCT%20%3Fitem%29%20AS%20%3Fcount%29%20WHERE%20%7B%3Fitem%20wdt%3AP402%20%5B%5D.%7D%0A) with the [OSM relation ID (`P402`)](http://wikidata.org/entity/P402) property pointing to OSM.
+* [**~63,000** Wikidata entities](https://query.wikidata.org/#SELECT%20%28COUNT%28DISTINCT%20%3Fitem%29%20AS%20%3Fcount%29%20WHERE%20%7B%3Fitem%20wdt%3AP402%20%5B%5D.%7D%0A) with the [OSM relation ID (`P402`)](http://wikidata.org/entity/P402) property pointing to OSM.
 
-* ~1900 checked items at the lookup table, ensuring that each OSM feature was really tagged with a reciprocal Wikidata identification.
+* 5% of errors in a sample of 2000 from Wikidata, where ~1900 items passed the test (a check ensuring that each OSM feature was really tagged with a reciprocal Wikidata identification) to constitute the *lookup* table.
 
 ## The lookup as certification
 
