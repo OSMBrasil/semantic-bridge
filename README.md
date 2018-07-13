@@ -48,6 +48,11 @@ There are two big [*dump* files](https://en.wikipedia.org/wiki/Database_dump) at
 
 As commented at ["Preparing OSM dumps"](src/README.md#preparing-osm-dumps), we can express it by Overpass and generate samples, but not do the real task, because is really big.  We can be split into countryes, and it will be better to use  with specialized curators... But even splitting we need OSMium tools to generate the dump files. So the v0.1 checking is using the online tools, that is a lazzy solution, so the project is producing only samples.
 
+## Towards a microservice to offer the lookup-table
+The service will be a hub for ***name resolution***, in the sense of [URN resolution](https://tools.ietf.org/html/rfc2169) (a standard terminology since 1997). The first step is to offer to Wikidata's [`P402`](http://wikidata.org/entity/P402) a persistent [URL template](https://en.wikipedia.org/wiki/URL_Template), offering  [Persistent URLs](https://en.wikipedia.org/wiki/Persistent_uniform_resource_locator), something like `http://wd.openstreetmap.org/{wikidata_id}` for redirection service, `http://wd.openstreetmap.org/{otherName}` for official reference redirection service  (to main official synonyms as [contry ISO codes](https://datahub.io/core/country-codes) or [local ISO administrative codes](http://datasets.ok.org.br/state-codes)).
+
+The other resolution services (ISO to Wikidata, OSM to Wikidata, Wikidata to OSM, etc.) including [canonicalization](https://en.wikipedia.org/wiki/Canonicalization) of OSM-elements (duplicates of Wikidata tag at OSM), will use something like `http://wd.openstreetmap.org/urn:{namespace}:{otherName}/{method}` with a standard methods, as showed by the [ISSN-L-Resolver project](https://github.com/okfn-brasil/ISSN-L-Resolver).
+
 ------
 
 [&#160; Contents and data of this project are dedicated to<br/> ![](assets/CC0-logo-200px.png) ](LICENSE.md)
