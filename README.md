@@ -29,7 +29,7 @@ wdId|osm_type|osm_id|isReciprocal|check_date
 [Q2500246](http://wikidata.org/entity/Q2500246)|N|[817882603](https://www.openstreetmap.org/node/817882603) ([js](https://nominatim.openstreetmap.org/details.php?format=json&osmtype=N&osmid=817882603))|n|2018-07-06
 ...|...|...|...|...
 
-* `wdId`: the Wikidata ID, can be resolved by `http://wikidata.org/entity/{wdId}` 
+* `wdId`: the Wikidata ID, can be resolved by `http://wikidata.org/entity/{wdId}`
 * `osm_type`: the OSM datatype used to represent the feature. `R`=Relation (polygon), `W`=Way (line), `N`=Node (point).
 * `osm_id`: the ID attributed to OSM feature in the check_date.
 
@@ -51,9 +51,12 @@ As commented at ["Preparing OSM dumps"](src/README.md#preparing-osm-dumps), we c
 ## Towards a microservice to offer the lookup-table
 The service will be a hub for ***name resolution***, in the sense of [URN resolution](https://tools.ietf.org/html/rfc2169) (a standard terminology since 1997). The first step is to offer to Wikidata's [`P402`](http://wikidata.org/entity/P402) a persistent [URL template](https://en.wikipedia.org/wiki/URL_Template), offering  [Persistent URLs](https://en.wikipedia.org/wiki/Persistent_uniform_resource_locator), something like <br/> &nbsp; `http://wd.openstreetmap.org/{wikidata_id}` <br/>for redirection service, <br/> &nbsp; `http://wd.openstreetmap.org/{otherName}` <br/>for official reference redirection service  (to main official synonyms as [contry ISO codes](https://datahub.io/core/country-codes) or [local ISO administrative codes](http://datasets.ok.org.br/state-codes)).
 
-The other resolution services (ISO to Wikidata, OSM to Wikidata, Wikidata to OSM, etc.) including [canonicalization](https://en.wikipedia.org/wiki/Canonicalization) of OSM-elements (duplicates of Wikidata tag at OSM), will use something like <br/> &nbsp; `http://urn.openstreetmap.org/{namespace}:{name}/{method}` <br/>with a standard methods, as showed by the [ISSN-L-Resolver project](https://github.com/okfn-brasil/ISSN-L-Resolver). The `namespace` parameter is like an [URN schema](https://en.wikipedia.org/wiki/Uniform_Resource_Name), the `name` can be an official name or a valid ID for the namespace. 
+The other resolution services (ISO to Wikidata, OSM to Wikidata, Wikidata to OSM, etc.) including [canonicalization](https://en.wikipedia.org/wiki/Canonicalization) of OSM-elements (duplicates of Wikidata tag at OSM), will use something like <br/> &nbsp; `http://urn.openstreetmap.org/{namespace}:{name}/{method}` <br/>with a standard methods, as showed by the [ISSN-L-Resolver project](https://github.com/okfn-brasil/ISSN-L-Resolver). The `namespace` parameter is like an [URN schema](https://en.wikipedia.org/wiki/Uniform_Resource_Name), the `name` can be an official name or a valid ID for the namespace.
 
 The `method` defines the endpoint of a service. Typical methods implemented as JSON services are `N2C` (name-to-canonic) to obtain the canonical name, `isN`  to check that the name exists, `N2Ns` (name-to-names) to list all official synonyms of a name... and `info` to return a catalog with all basic metadata that describes the refered (canonical) item.  
+
+## The curators
+... Organazing by country. Each "community of curators" check its data, the erros and do corrections.
 
 ------
 
