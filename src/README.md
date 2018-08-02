@@ -24,7 +24,45 @@ curl -o data/dumps_wd/countries.csv -G 'https://query.wikidata.org/sparql' \
 '
 ```
 
-### Other Wikidata
+### country-full list of itens
+
+```sparql
+SELECT DISTINCT ?qid ?osm_relid ?wgs84 ?codIBGE ?itemLabel
+WHERE {
+  ?item wdt:P625 _:b0.
+  ?item wdt:P31*/wdt:P279*/wdt:P17 wd:$_QID_COUNTRY_.
+  BIND(xsd:integer(strafter(str(?item), "http://www.wikidata.org/entity/Q")) as ?qid)
+  OPTIONAL { ?item wdt:P1448 ?name. }
+  OPTIONAL { ?item wdt:P402 ?osm_relid .}
+  OPTIONAL { ?item wdt:P625 ?wgs84 .}  
+  OPTIONAL { ?item wdt:P1585 ?codIBGE .}
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en,[AUTO_LANGUAGE]". }
+}
+ORDER BY ASC(?qid)
+```
+So, using BR as country code the associated QID is Q155, `$_QID_COUNTRY_='Q155'` and we obtain:
+```sh
+curl -o data/dumps_wd/BR_full.new.csv \
+     -G 'https://query.wikidata.org/sparql' \
+     --header "Accept: text/csv"  \
+     --data-urlencode query='
+     SELECT DISTINCT ?qid ?osm_relid ?wgs84 ?codIBGE ?itemLabel
+     WHERE {
+       ?item wdt:P625 _:b0.
+       ?item wdt:P31*/wdt:P279*/wdt:P17 wd:Q155.
+       #BIND(STRAFTER(STR(?item), "http://www.wikidata.org/entity/Q") AS ?qid)
+       BIND(xsd:integer(strafter(str(?item), "http://www.wikidata.org/entity/Q")) as ?qid)
+       OPTIONAL { ?item wdt:P1448 ?name. }
+       OPTIONAL { ?item wdt:P402 ?osm_relid .}
+       OPTIONAL { ?item wdt:P625 ?wgs84 .}  
+       OPTIONAL { ?item wdt:P1585 ?codIBGE .}
+       SERVICE wikibase:label { bd:serviceParam wikibase:language "en,[AUTO_LANGUAGE]". }
+     }
+     ORDER BY ASC(?qid)
+'  # 2 minutes
+```
+
+### Old (deprecated) CSVs
 
 1. [Querying at Wikidata](https://query.wikidata.org/#SELECT%20DISTINCT%20%3Fitem%20WHERE%20%7B%3Fitem%20wdt%3AP402%20%5B%5D.%7D%0A) with `SELECT DISTINCT ?item WHERE {?item wdt:P402 [].}`
 
