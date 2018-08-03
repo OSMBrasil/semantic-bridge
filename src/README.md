@@ -26,11 +26,32 @@ curl -o data/dumps_wd/countries.csv -G 'https://query.wikidata.org/sparql' \
 
 ### country full-list of itens
 
+In nowdays at Wikidata, the only manner to check items "about country" is checking the statement `P17` (country). Example: to check that an Wikidata item is about Brazil we must check   `?item wdt:P17 wd:Q155`... But this statement can be in a parent (!) without redunce in the item, so **the correct query** is `?item (P31|P279)*/P17 wd:Q155`, that is so time-consuming in a Bigdata graph as Wikidata.
+
+To avoid "Bigdata graph traversal limitations" with SparQL, we need to use a *hint* directive, geting only basic data,
+
+```sh
+curl -o data/dumps_wd/BR_relIds.csv \
+     -G 'https://query.wikidata.org/sparql' \
+     --header "Accept: text/csv"  \
+     --data-urlencode query='
+     SELECT DISTINCT ?wd_id ?osm_relid
+     WHERE {
+       ?wd_id (wdt:P31|wdt:P279)*/wdt:P17 wd:Q155 .
+       ?wd_id wdt:P402 ?osm_relid .
+       hint:Prior hint:runLast true .
+     }
+     ORDER BY ?wd_id
+'  # ~10 seconds, ~5600 items
+```
+
+Now `BR_relIds.csv` have the main data to be analysed. To get all other attributes and candidates we can constraint
+
 ```sparql
 SELECT DISTINCT ?qid ?osm_relid ?wgs84 ?codIBGE ?itemLabel
 WHERE {
   ?item wdt:P625 _:b0.
-  ?item wdt:P31*/wdt:P279*/wdt:P17 wd:$_QID_COUNTRY_.
+  ?item wdt:P31*/wdt:P279*/wdt:P17 wd:$_QID_COUNTRY_ .
   BIND(xsd:integer(strafter(str(?item), "http://www.wikidata.org/entity/Q")) as ?qid)
   OPTIONAL { ?item wdt:P1448 ?name. }
   OPTIONAL { ?item wdt:P402 ?osm_relid .}
@@ -50,7 +71,6 @@ curl -o data/dumps_wd/BR_items.csv \
      WHERE {
        ?item wdt:P625 _:b0.
        ?item wdt:P31*/wdt:P279*/wdt:P17 wd:Q155.
-       #BIND(STRAFTER(STR(?item), "http://www.wikidata.org/entity/Q") AS ?qid)
        BIND(xsd:integer(strafter(str(?item), "http://www.wikidata.org/entity/Q")) as ?qid)
        OPTIONAL { ?item wdt:P1448 ?name. }
        OPTIONAL { ?item wdt:P402 ?osm_relid .}
@@ -59,9 +79,9 @@ curl -o data/dumps_wd/BR_items.csv \
        SERVICE wikibase:label { bd:serviceParam wikibase:language "en,[AUTO_LANGUAGE]". }
      }
      ORDER BY ASC(?qid)
-'  # 2 minutes
+'  # 2 minutes, ~32000 items
 ```
-
+<!--
 ### Old (deprecated) CSVs
 
 1. [Querying at Wikidata](https://query.wikidata.org/#SELECT%20DISTINCT%20%3Fitem%20WHERE%20%7B%3Fitem%20wdt%3AP402%20%5B%5D.%7D%0A) with `SELECT DISTINCT ?item WHERE {?item wdt:P402 [].}`
@@ -71,11 +91,12 @@ curl -o data/dumps_wd/BR_items.csv \
 3. `php src/check.php sort > data/dump/wikidataP402.csv` and, id all there,  `rm data/dump/wikidataP402.new.csv`.
 
 4. `wc -l wikidataP402.csv` to estimate number of itens (please update home-README when necessary).
+-->
 
 ## Preparing dumps_osm
 OpenStreetMap [dumps](https://en.wikipedia.org/wiki/Database_dump).
 
-By country, example: `php src/OSM_get.php BR` will refresh the `data/dumps_osm/BR_wdElements.csv` file.
+Scan with Overpass, by country. Example: `php src/OSM_get.php BR` will refresh the `data/dumps_osm/BR_elements.csv` file.
 <!--
 This Overpass-script generates content for [`osm_way.csv`](../data/dump/osm_way.csv) file.
 Replacing `way` to `relation` at  script, will generate `osm_relation.csv` file.
@@ -86,7 +107,14 @@ See [osmium-tags-filter](https://github.com/osmcode/osmium-tool/blob/master/man/
 
 ## Preparing lookup
 
-After wikidata dump prepared, this recipe will match dumps, do some checks, and refresh lookup files, including the error output.
+After OSM's and Wikidata's dumps prepared, this recipe will:
+1. match dumps,
+2. do some checks,
+3. and refresh lookup files, including the error output.
 
+... All by SQL, see `psql` part in the make.
+
+<!--
 1. `php src/check.php BR > data/BR_lookup.csv` ... and wait a lot!<br/>To test you can use eg. `$stopAt=50`.
 2. check file and `git diff data/BR_lookup.csv`
+-->

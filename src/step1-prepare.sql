@@ -15,7 +15,7 @@ DROP SCHEMA IF EXISTS tmp1 CASCADE;
 CREATE SCHEMA tmp1;
 
 CREATE FOREIGN TABLE tmp1.wd_br_raw (
-  wd_id int,           osm_relid int,
+  wd_id bigint,           osm_relid bigint,
   latlong_wgs84 text,  ibge_id int,
   name text
 ) SERVER files OPTIONS (
@@ -25,7 +25,7 @@ CREATE FOREIGN TABLE tmp1.wd_br_raw (
 );
 
 CREATE FOREIGN TABLE tmp1.osm_br_raw (
-  osm_type text,       osm_id int,
+  osm_type text,       osm_id bigint,
   wd_id text,          name text
 ) SERVER files OPTIONS (
   filename '/tmp/semantic-bridge/data/dumps_osm/BR_elements.csv',
@@ -34,11 +34,12 @@ CREATE FOREIGN TABLE tmp1.osm_br_raw (
 );
 
 CREATE VIEW tmp1.wd_osm_join1 AS
-  SELECT o.wd_id, osm_type, o.osm_id,
+  SELECT w.wd_id, osm_type, o.osm_id,
          CASE WHEN osm_type='relation' AND w.osm_relid=osm_id THEN true ELSE false END as osm_was_matching,
          '('|| w.name ||' | '|| o.name||')' as names
   FROM tmp1.wd_br_raw w INNER JOIN tmp1.osm_br_raw o
     ON w.wd_id::text = substr(o.wd_id,2)
+  ORDER BY 1,2 desc
 ;
 
 -- falta carregar cidades e estados para descontar.

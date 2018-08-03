@@ -1,4 +1,12 @@
 <?php
+/**
+ * DANGER: ABANDONED!!  All is running by SQL.
+ */
+
+////////////////////////////////////////
+
+die("\n was working very slow here... ABANDONED, please check SparQL+Overpass+SQL procedures.\n");
+
 // usage: php src/check.php > data/lookup.csv &
 //        ps ax | grep php
 
@@ -52,7 +60,7 @@ $n=count($R);
 $ERR=[];
 $todayIso = substr(date(DATE_ATOM),0,10);
 
-$delay_rnd=20;  // big for low probability.. ranging from 2 to 200. 
+$delay_rnd=20;  // big for low probability.. ranging from 2 to 200.
 $delay_sleep=4; // seconds
 // at home use (20,2); at DigitalOcean use (5,3).
 
@@ -152,4 +160,3 @@ function getWdArray_fromWdUrl($wdId) {
 }
 
 ?>
-
