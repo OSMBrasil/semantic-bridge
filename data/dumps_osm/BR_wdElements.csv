@@ -1,4 +1,4 @@
-@type,@id,wikidata,"name"
+osm_type,osm_id,wd_id,name
 node,273316,Q842713,"Itajaí"
 node,26508322,Q330208,"Vitória da Conquista"
 node,30674098,Q174,"São Paulo"

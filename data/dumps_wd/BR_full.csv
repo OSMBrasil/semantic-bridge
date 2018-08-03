@@ -1,4 +1,4 @@
-qid,osm_relid,wgs84,codIBGE,itemLabel
+wd_id,osm_relid,latlong_wgs84,ibge_id,name
 155,59470,Point(-53.0 -11.0),,Brazil
 174,298285,Point(-46.633947222 -23.550394444),3550308,São Paulo
 175,298204,Point(-49.2075 -21.829722222),,São Paulo
