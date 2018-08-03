@@ -72,7 +72,7 @@ foreach ($R as $arg) {
   $tsv_n = substr_count( trim($tsv), "\n" );
   if ($tsv_n>1) {
     print " $tsv_n lines read. Saving and waiting... ";
-    file_put_contents( "$saveFolder/dumps_osm/{$name}_wdElements.csv", tsv2csv($tsv) );
+    file_put_contents( "$saveFolder/dumps_osm/{$name}_elements.csv", tsv2csv($tsv) );
   } else print " ops, some error... last_Overpass=\n$last_Overpass\n";
   sleep(rand(1,4));
   print date('h:i:s') ;
@@ -110,7 +110,7 @@ function ERRdie($fname,$msg0) {
 function tsv2csv($full) {
   $full = preg_replace_callback(
     '/\t([^\t]*)\n/',
-    funtion ($m) { $x=trim($m[1],'" '); ",\"$x\"\n"; },
+    function ($m) { $x=trim($m[1],'" '); return ",\"$x\"\n"; },
     $full
   );
   return str_replace("\t", ',', $full);
