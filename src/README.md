@@ -24,7 +24,7 @@ curl -o data/dumps_wd/countries.csv -G 'https://query.wikidata.org/sparql' \
 '
 ```
 
-### country-full list of itens
+### country full-list of itens
 
 ```sparql
 SELECT DISTINCT ?qid ?osm_relid ?wgs84 ?codIBGE ?itemLabel
@@ -42,7 +42,7 @@ ORDER BY ASC(?qid)
 ```
 So, using BR as country code the associated QID is Q155, `$_QID_COUNTRY_='Q155'` and we obtain:
 ```sh
-curl -o data/dumps_wd/BR_full.new.csv \
+curl -o data/dumps_wd/BR_items.csv \
      -G 'https://query.wikidata.org/sparql' \
      --header "Accept: text/csv"  \
      --data-urlencode query='

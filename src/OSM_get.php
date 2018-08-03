@@ -108,7 +108,11 @@ function ERRdie($fname,$msg0) {
 }
 
 function tsv2csv($full) {
-  $full = preg_replace('/\t([^\t]*)\n/', ",\"\$1\"\n", $full );
+  $full = preg_replace_callback(
+    '/\t([^\t]*)\n/',
+    funtion ($m) { $x=trim($m[1],'" '); ",\"$x\"\n"; },
+    $full
+  );
   return str_replace("\t", ',', $full);
 }
 

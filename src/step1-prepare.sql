@@ -38,7 +38,7 @@ CREATE VIEW tmp1.wd_osm_join1 AS
          CASE WHEN osm_type='relation' AND w.osm_relid=osm_id THEN true ELSE false END as osm_was_matching,
          '('|| w.name ||' | '|| o.name||')' as names
   FROM tmp1.wd_br_raw w INNER JOIN tmp1.osm_br_raw o
-    ON o.wd_id::text = substr(w.wd_id,1)
+    ON w.wd_id::text = substr(o.wd_id,2)
 ;
 
 -- falta carregar cidades e estados para descontar.
