@@ -1,3 +1,7 @@
+> Nota para usuários brasileiros: Colabore interagindo [aqui nas *issues*](https://github.com/OSMBrasil/semantic-bridge/issues), ou verifique se o projeto [EdwardBetts/osm-wikidata](https://github.com/EdwardBetts/osm-wikidata) satisfaz as todas necessidades.
+
+-----
+
 # semantic-bridge
 A "[semantic](https://en.wikipedia.org/wiki/Semantic_Web) bridge" between [OpenStreetMap](http://openstreetmap.org) (OSM) and [Wikidata](http://wikidata.org) (WD) by **reciprocal** identification.
 
