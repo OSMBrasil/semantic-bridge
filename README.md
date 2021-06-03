@@ -19,7 +19,7 @@ At July 2018 there are:
 
 ## The lookup as certification
 
-Some examples and fields description for the [`lookup.csv`](data/lookup.csv) main dataset of this project.
+Some examples and fields description for the [`lookup.csv`](data/int-lookup.csv) main dataset of this project.
 
 wdId|osm_type|osm_id|isReciprocal|check_date
 ----|--------|------|------|-------
